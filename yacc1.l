@@ -1,28 +1,34 @@
+/*this is first part its optional or if we wnat to write c code we have to include special symbol %{ %}*/
 %{
 #include<stdio.h>
-
+#include<string.h>
 int word_count = 0;
 int line_count = 0;
-int char_count = 0;
-
+long unsigned char_count = 0;
+ /*string temp;*/
 %}
 
-word [' '\t]+
+/*RE*/
+/*word [' '\t]+this will not work what if i start with a space*/
+word [a-zA-Z0-9!@#$%^&*()-+]+
 eol \n
-char [^\n\t]
+/*char [^\n\t]*/
 
 %%
-	  
-{eol} {
-		line_count++;
-		word_count++;
-		}
-{word} {
-		word_count++;
-	   }
-{char} {
+ /*Rules and actions associated*/
+{eol} line_count++;
+{word} {	
+			/*temp = yytext;*/
+			/*printf("The word is : %s\n",yytext);
+			printf("%lu",strlen(yytext));*/
+			char_count += strlen(yytext);
+			word_count++;
+					}
+. 		;
+ /* {char} {
 		char_count++;
 		}
+*/
 
 
 %%
@@ -33,7 +39,7 @@ int main()
 	
 	printf("Word Count%d" , word_count);
 	printf("\nLine Count%d" , line_count);
-	printf("\nChar Count%d\n" , char_count);
+	printf("\nChar Count%lu\n" , char_count);
 	
 	yywrap();
 }

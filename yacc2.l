@@ -1,66 +1,110 @@
 %{
 	#include<stdio.h>
 	#include<string.h>
-	struct symtb{
+	
+	struct symtab{
 	char name[20];
 	char type[20];
-	}symtab[10];
+	int lineno;
+	}symtab[50];
 	
+	int flag;
+	char temp[30];
+	int lineno;
 	int count = 0;
 	void insert();
 	void display();
 %}
-
-letter [a-zA-Z]*
-digit [0-9]*
-symbolf "()"
-symbola "[]"
-id1 {digit}({letter}|{digit})
-id {letter}({letter}|{digit})
+newline [\n]
+/*comment ([' '\t]*)("//")([([' '\t]*)([a-zA-Z0-9]*)]+)*/
+comment [' '\t]*."//".*
+doublequotes ["]..*.["]
+kw "import"|"java"|"static"|"return"|"public"|"new"|"void"|"class"
+/* id1 is not a identifier*/
+class [A-Z].[a-zA-Z0-9]*
+ /*id1 {digit}({letter}|{digit})*/
+id1 [0-9].[a-zA-Z0-9]+  
+id [a-z].[a-zA-Z0-9]*
 dt "int"|"float"|"double"|"char"|"String"
-
-kw "main"|"args"|"return"
-inbuiltf {kw}{symbolf}
-udf {letter}({letter}|{digit}){symbolf}
-array {id}{symbola}
+inbuiltf ".".[a-zA-Z0-9]+
+udf [a-z].[a-zA-Z0-9]+."("
+array [a-z]+.[0-9]+."["
 semicolon ";"
-
+anythingelse .
 
 %%
 
+ /* insert only identifier name and its data type function name and whether its udf or inbuil and objects then which type of class it is*/ 
+{doublequotes} ;
+{dt} {printf("%s : Datatype%d\n", yytext, yylineno);}
 
-{dt} {printf("\n%s : Datatype", yytext);}
-{array} {printf("\n%s : Array", yytext);}
-{kw} {printf("\n%s : Keyword", yytext);}
-{inbuiltf} {printf("\n%s : In Built Function ", yytext);}
-{udf} {printf("\n%s : User Defined Function", yytext);}
-{id1} {printf("\n%s : Invalid Identifier ", yytext);}
-{id} {printf("\n%s : Identifier ", yytext);}
-{semicolon} {printf("\n%s : Semicolon", yytext);}
+{kw} {printf("%s : Keyword %d\n", yytext, yylineno);}
+{newline}    yylineno++;
+
+{comment} printf("comment %s%d\n", yytext,yylineno); 
+{class} {
+			strcpy(temp,"Class");	
+			insert();
+		}
+{array} {
+			strcpy(temp,"Array");	
+			insert();
+		}
+ 
+{inbuiltf} {
+			strcpy(temp,"Inbuilt_F");
+			insert();
+	    }
+	    
+{udf} {
+			strcpy(temp,"User_Defined_F");
+			insert();
+	  }
+	  
+{id1} printf("\n%s : Invalid Identifier%d ", yytext,yylineno);
+
+{id} {
+			strcpy(temp,"Identifier");
+			insert();
+	}
+	
+{semicolon} ;
+
+{anythingelse} ;
+
 %%
 
-insert()
+void insert()
 {
+ flag = 0;
  for(int i =0 ; i < count ;i++)
  {
  	if(strcmp(symtab[i].name , yytext) == 0)
  		flag = 1;
  }
  
- if(flag != 1)
+ if(flag == 0)
  {
+ 	symtab[count].lineno = yylineno;
  	strcpy(symtab[count].name, yytext);
  	strcpy(symtab[count].type, temp);
  	count++;
  }
 }
-
-main()
+void display()
+{
+	printf("   NAME         TYPE                    LINENO  ");
+	for(int i =0 ;i < count ;i++)
+	{
+		printf("\n   %s         %s     %d  \n",symtab[i].name, symtab[i].type, symtab[i].lineno);
+	}
+}
+int main()
 {
 yyin = fopen("temp2.java","r");
 yylex();
-printf("\nSYMBOL TABLE");
-
+printf("\n###############SYMBOL TABLE##############\n");
+display();
 yywrap();
 }
 
