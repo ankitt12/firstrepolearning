@@ -18,17 +18,12 @@ eol \n
  /*Rules and actions associated*/
 {eol} line_count++;
 {word} {	
-			/*temp = yytext;*/
-			/*printf("The word is : %s\n",yytext);
-			printf("%lu",strlen(yytext));*/
+			
 			char_count += strlen(yytext);
 			word_count++;
 					}
 . 		;
- /* {char} {
-		char_count++;
-		}
-*/
+
 
 
 %%

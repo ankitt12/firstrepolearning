@@ -1,18 +1,12 @@
-import java.util.Scanner;
-
-public class HelloWorld {
-
-    public static void main(String[] args) {
-
-        // Creates a reader instance which takes
-        // input from standard input - keyboard
-        Scanner reader = new Scanner(System.in);
-        System.out.print("Enter a number: ");int a;
-
-        // nextInt() reads the next integer from the keyboard
-        int number = reader.nextInt();
-
-        // println() prints the following line to the output screen
-        System.out.println("You entered: " + number);
+class Condition {
+  public static void main(String[] args) {
+    boolean learning = true;
+ 
+    if (learning) {
+      System.out.println("Java programmer");
     }
+    else {
+      System.out.println("What are you doing here?");
+    }
+  }
 }

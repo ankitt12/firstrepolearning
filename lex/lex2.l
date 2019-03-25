@@ -16,26 +16,30 @@
 	void display();
 %}
 newline [\n]
-/*comment ([' '\t]*)("//")([([' '\t]*)([a-zA-Z0-9]*)]+)*/
 comment [' '\t]*."//".*
+ignore "! @ # $ % ^ & * ( ) - = + * / { } ; , :"
 doublequotes ["]..*.["]
+package "util"
+inbuiltf "main(".*
 kw "import"|"java"|"static"|"return"|"public"|"new"|"void"|"class"
 /* id1 is not a identifier*/
 class [A-Z].[a-zA-Z0-9]*
  /*id1 {digit}({letter}|{digit})*/
+dt "int"|"float"|"double"|"char"|"String"
+
+array [a-z]+.[0-9a-zA-Z]*."[]"
 id1 [0-9].[a-zA-Z0-9]+  
 id [a-z].[a-zA-Z0-9]*
-dt "int"|"float"|"double"|"char"|"String"
-inbuiltf ".".[a-zA-Z0-9]+
-udf [a-z].[a-zA-Z0-9]+."("
-array [a-z]+.[0-9]+."["
-semicolon ";"
+
+udf [a-z].[a-zA-Z0-9]+.[(]
+/*semicolon ";"*/
 anythingelse .
 
 %%
 
  /* insert only identifier name and its data type function name and whether its udf or inbuil and objects then which type of class it is*/ 
 {doublequotes} ;
+{package} printf("%s : Package%d\n", yytext, yylineno);
 {dt} {printf("%s : Datatype%d\n", yytext, yylineno);}
 
 {kw} {printf("%s : Keyword %d\n", yytext, yylineno);}
@@ -46,6 +50,7 @@ anythingelse .
 			strcpy(temp,"Class");	
 			insert();
 		}
+{ignore} ;
 {array} {
 			strcpy(temp,"Array");	
 			insert();
@@ -67,8 +72,6 @@ anythingelse .
 			strcpy(temp,"Identifier");
 			insert();
 	}
-	
-{semicolon} ;
 
 {anythingelse} ;
 
