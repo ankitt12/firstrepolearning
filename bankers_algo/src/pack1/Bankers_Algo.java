@@ -15,6 +15,7 @@ public class Bankers_Algo {
 	ArrayList < ArrayList<Integer> > need; // resources need for each process to complete its 
 	ArrayList<Integer> max_resources;
 	ArrayList<Boolean> processed;
+	ArrayList<Integer> sequence;
 	public static Scanner sc;
 	public Bankers_Algo(int p , int r){
 		sc = new Scanner(System.in);
@@ -29,6 +30,7 @@ public class Bankers_Algo {
 		for(int i=0 ;i < p ;i++){
 			processed.add(false);
 		}
+		sequence = new ArrayList<Integer>();
 	}
 	void take_input(){
 		//System.out.println("enter max no of units available for each resources");
@@ -95,7 +97,7 @@ public class Bankers_Algo {
 				}
 				if(j == r){
 					System.out.println("PROCESS "+(i+1)+" IS GETTING EXECUTED");
-					
+					sequence.add(i+1);
 					processed.set(i, true);
 					need.set(i, zero);
 					for(int k=0 ;k < r; k++){
@@ -118,7 +120,10 @@ public class Bankers_Algo {
 			if(j != p)
 				System.out.println("System is not in safe state");
 		}
-		
+		System.out.println("the sequence of execution(process id) is");
+		for(i =0 ;i < sequence.size(); i++){
+			System.out.print(sequence.get(i)+"  ");
+		}
 }
 	void display(){
 		System.out.println("Max Resources Matrix ");	
