@@ -78,15 +78,15 @@ public class Scheduling_Algo {
 			t += temp.burst_time;
 			temp.completion_time = t;
 			gant_chart.add(temp.id);
-			start += 1;
+//			start += 1;
 			//remove the executed item form readystate
 			ready_state.remove(0);
 			//check if any new process has arrived in time interval t to t+temp.burst_time
-			for(int i =start; i < num; i++){
+			for(int i =start+1; i < num; i++){
 				temp = p1.get(i);
 				if(temp.arrival_time <= t){
 					ready_state.add(temp);
-					flag = 1;
+					flag = 1; // flag == 1 implies ready state is changed
 					start = i;
 				}
 				
@@ -135,9 +135,9 @@ public class Scheduling_Algo {
 			if(temp.remaining_burst_time == 0){
 				ready_state.remove(0);
 			}
-			start += 1;
+			//start += 1;
 			//check if any new process has arrived in time interval t to t+temp.burst_time
-			for(int i =start; i < num; i++){
+			for(int i =start+1; i < num; i++){
 				temp = p1.get(i);
 				if(temp.arrival_time <= t){
 					ready_state.add(temp);
@@ -196,7 +196,14 @@ public class Scheduling_Algo {
 		}
 		System.out.println("|");
 		System.out.println();
-		System.out.println("Process_id\tPriority\tArrival_Time\tBurst_Time\tCompletion_Time\tTurnaround Time\tWaiting Time");
+		if(flag == 1){
+			System.out.println("Process_id\tPriority\tArrival_Time\tBurst_Time\tCompletion_Time\t" +
+					"Turnaround Time\tWaiting Time");
+		}
+		else{
+			System.out.println("Process_id\tArrival_Time\tBurst_Time\tCompletion_Time\t" +
+					"Turnaround Time\tWaiting Time");
+		}
 		for(int i=0 ;i < num ;i++){
 			Process temp = p.get(i);
 			temp.turnaround_time = temp.completion_time - temp.arrival_time;
@@ -296,17 +303,18 @@ public class Scheduling_Algo {
 		int t = p1.get(0).arrival_time;
 		ArrayList<Process> ready_state = new ArrayList<>();
 		ready_state.add(p1.get(0));
+		start = 0;
 		while(ready_state.size() != 0){
 			flag = 0;
 			Process temp = ready_state.get(0);
 			t += temp.burst_time;
 			temp.completion_time = t;
 			gant_chart.add(temp.id);
-			start += 1;
+			//start += 1;
 			//remove the executed item form readystate
 			ready_state.remove(0);
 			//check if any new process has arrived in time interval t to t+temp.burst_time
-			for(int i =start; i < num; i++){
+			for(int i =start+1; i < num; i++){
 				temp = p1.get(i);
 				if(temp.arrival_time <= t){
 					ready_state.add(temp);
@@ -352,7 +360,7 @@ public class Scheduling_Algo {
 		int t = p1.get(0).arrival_time;
 		ArrayList<Process> ready_state = new ArrayList<>();
 		ready_state.add(p1.get(0));
-		 
+		 start = 0;
 		while(ready_state.size() != 0){
 			flag = 0;
 			Process temp = ready_state.get(0);
@@ -364,11 +372,11 @@ public class Scheduling_Algo {
 				ready_state.remove(temp);
 			}
 			
-			start += 1;
+			//start += 1;
 			//check if any new process has arrived in time interval t to t+1 if yes the 
 			// insert into the ready state and its its priority is greater than the current
 			// event schedule it;
-			for(int i =start; i < num; i++){
+			for(int i =start+1; i < num; i++){
 				temp = p1.get(i);
 				if(temp.arrival_time <= t){
 					ready_state.add(temp);
@@ -518,12 +526,108 @@ Priority Pre emptive
 6
 6
 Priority
+5
+1
+0
+10
+2
+1
+1
+3
+2
 2
 4
-6
-10
-8
-12
-9
+3
+1
+5
+4
+5
+enter priority in order
+3
+1
+4
+5
+2
  */
+/*
+ * ROUND ROBIN
+ 5
+1
+0
+3
+2
+2
+6
+3
+4
+4
+4
+6
+5
+5
+8
+2
+1.FCFS 
+2.SJF non preemptive
+3.SJF preemptive
+4.Priority Scheduling non preemptive 
+5.Priority Scheduling Preemptive
+6.Round Robin
+Enter choice
+6
+Enter the quantum size
+1
+Gantt Chart
+| 1 | 1 | 2 | 1 | 2 | 3 | 2 | 4 | 3 | 2 | 5 | 4 | 3 | 2 | 5 | 4 | 3 | 2 | 4 | 4 |
+
+Process_id	Priority	Arrival_Time	Burst_Time	Completion_Time	Turnaround Time	Waiting Time
+1		0		3		4		4		1
+2		2		6		18		16		10
+3		4		4		17		13		9
+4		6		5		20		14		9
+5		8		2		15		7		5
+Average TurnAround Time is10
+Average Waiting Time is6
+Do u want to continue??(0/1)
+
+
+SHORTEST JOB FIRST NON PREEMPTIVE
+5
+1
+1
+7
+2
+2
+5
+3
+3
+1
+4
+4
+2
+5
+5
+8
+1.FCFS 
+2.SJF non preemptive
+3.SJF preemptive
+4.Priority Scheduling non preemptive 
+5.Priority Scheduling Preemptive
+6.Round Robin
+Enter choice
+2
+Gantt Chart
+| 1 | 3 | 4 | 2 | 5 |
+
+Process_id	Arrival_Time	Burst_Time	Completion_Time	Turnaround Time	Waiting Time
+1		1		7		8		7		0
+2		2		5		16		14		9
+3		3		1		9		6		5
+4		4		2		11		7		5
+5		5		8		24		19		11
+Average TurnAround Time is10
+Average Waiting Time is6
+Do u want to continue??(0/1)
+*/
+
 
