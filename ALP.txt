@@ -17,5 +17,5 @@ N	DS		1
 RESULT	DS	1
 ONE		DC	'1'
 TERM	DS	1
-TEMP    DC  '5'
+TEMP    DC  '6'
 	END
