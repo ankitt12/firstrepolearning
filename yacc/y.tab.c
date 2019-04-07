@@ -17,8 +17,8 @@
 
 #define YYPURE 0
 
-#line 2 "yacc3.y"
-#include <stdio.h>
+#line 2 "yacc1.y"
+#include<stdio.h>
 extern int yylex();
 extern int yywrap();
 #line 25 "y.tab.c"
@@ -62,47 +62,46 @@ extern int YYPARSE_DECL();
 
 #define ID 257
 #define BUILTIN 258
-#define GARBAGE 259
-#define SC 260
-#define DT 261
-#define COMMA 262
-#define NL 263
+#define SC 259
+#define DT 260
+#define COMMA 261
+#define NL 262
 #define YYERRCODE 256
 typedef short YYINT;
 static const YYINT yylhs[] = {                           -1,
-    0,    1,    1,
+    0,    0,    1,    1,
 };
 static const YYINT yylen[] = {                            2,
-    4,    3,    1,
+    4,    0,    3,    1,
 };
 static const YYINT yydefred[] = {                         0,
-    0,    0,    3,    0,    0,    0,    1,    2,
+    0,    0,    4,    0,    0,    0,    1,    3,
 };
 static const YYINT yydgoto[] = {                          2,
     4,
 };
 static const YYINT yysindex[] = {                      -257,
- -254,    0,    0, -260, -259, -252,    0,    0,
+ -254,    0,    0, -259, -258, -252,    0,    0,
 };
-static const YYINT yyrindex[] = {                         0,
+static const YYINT yyrindex[] = {                         6,
     0,    0,    0,    0,    0,    0,    0,    0,
 };
 static const YYINT yygindex[] = {                         0,
     0,
 };
-#define YYTABLESIZE 5
+#define YYTABLESIZE 6
 static const YYINT yytable[] = {                          5,
-    1,    6,    3,    7,    8,
+    1,    6,    3,    7,    8,    2,
 };
-static const YYINT yycheck[] = {                        260,
-  258,  262,  257,  263,  257,
+static const YYINT yycheck[] = {                        259,
+  258,  261,  257,  262,  257,    0,
 };
 #define YYFINAL 2
 #ifndef YYDEBUG
 #define YYDEBUG 0
 #endif
-#define YYMAXTOKEN 263
-#define YYUNDFTOKEN 267
+#define YYMAXTOKEN 262
+#define YYUNDFTOKEN 266
 #define YYTRANSLATE(a) ((a) > YYMAXTOKEN ? YYUNDFTOKEN : (a))
 #if YYDEBUG
 static const char *const yyname[] = {
@@ -113,12 +112,13 @@ static const char *const yyname[] = {
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"ID","BUILTIN","GARBAGE","SC",
-"DT","COMMA","NL",0,0,0,"illegal-symbol",
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,"ID","BUILTIN","SC","DT","COMMA",
+"NL",0,0,0,"illegal-symbol",
 };
 static const char *const yyrule[] = {
 "$accept : start",
 "start : BUILTIN varlist SC NL",
+"start :",
 "varlist : varlist COMMA ID",
 "varlist : ID",
 
@@ -158,15 +158,15 @@ typedef struct {
 } YYSTACKDATA;
 /* variables for the parser stack */
 static YYSTACKDATA yystack;
-#line 15 "yacc3.y"
+#line 15 "yacc1.y"
 
 int yyerror(char * str)
-{printf("%s",str);
-return 0;}
+{
+printf("%s",str);}
 
 int main()
 {
-	yyparse();
+yyparse();
 }
 #line 172 "y.tab.c"
 
@@ -371,11 +371,11 @@ yyreduce:
     switch (yyn)
     {
 case 1:
-#line 11 "yacc3.y"
-	{printf("VALID\n");}
+#line 10 "yacc1.y"
+	{printf("VALID");}
 break;
-case 3:
-#line 13 "yacc3.y"
+case 4:
+#line 12 "yacc1.y"
 	{}
 break;
 #line 382 "y.tab.c"
