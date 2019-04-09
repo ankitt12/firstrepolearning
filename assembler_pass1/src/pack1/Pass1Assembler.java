@@ -25,7 +25,7 @@ class Pass1AssemblerImplementation{
 	String st;
 	String starray[];
 	String starray1[];
-	int lc; //location counter
+	Integer lc1, lc; //location counter
 	String motvalue[];
 	String potvalue;
 	int flag;
@@ -37,6 +37,7 @@ class Pass1AssemblerImplementation{
 	int PoolT_index;
 	int i;
 	int line= 1;
+	ArrayList<Integer> LC;
 	public Pass1AssemblerImplementation() {
 		try{
 			alpfile = new FileReader("/home/ankit/sem_6_prac/ALP.txt");
@@ -55,6 +56,7 @@ class Pass1AssemblerImplementation{
 			PoolT = new HashMap<Integer, Integer>();
 			PoolT_index = 1;
 			PoolT.put(1, 1);
+			LC = new ArrayList<>();
 		}catch(Exception e){
 			e.printStackTrace();
 		}		
@@ -70,6 +72,11 @@ class Pass1AssemblerImplementation{
 				potvalue = temp.find_POT(starray[i]);
 				if(potvalue != null){
 					process_pseudo_op(i);
+					if(lc1 != lc)
+					{
+					lc1 = lc;
+					LC.add(lc1);
+					}
 //					System.out.println(lc);
 					continue;
 				}
@@ -78,16 +85,37 @@ class Pass1AssemblerImplementation{
 					//process literal stored if any 
 					if(starray[i].equals("STOP")){
 						lc +=  Integer.parseInt(motvalue[1]);
+						if(lc1 != lc)
+						{
+						lc1 = lc;
+						LC.add(lc1);
+						}
 						//System.out.println(lc);
 						continue;
 					}
 					store_literal(i+1, 1); //1 implies its called from here 0 implies called from process_pseudo_op
+					if(lc1 != lc)
+					{
+					lc1 = lc;
+					LC.add(lc1);
+					}
+					
 					lc +=  Integer.parseInt(motvalue[1]); //parseint return int valueof return Integer object
-//					System.out.println(lc);
+					if(lc1 != lc)
+					{
+					lc1 = lc;
+					LC.add(lc1);
+					}
+					//System.out.println(lc);
 					continue;
 				}
 				//symbol found
 				insert_ST(starray[i]);
+				if(lc1 != lc)
+				{
+				lc1 = lc;
+				LC.add(lc1);
+				}
 //				System.out.println(lc);
 			}	
 		}catch(Exception e){
@@ -182,6 +210,9 @@ class Pass1AssemblerImplementation{
 	}
 	void display_writetofile(){
 		try{
+			for(int i=0 ;i < LC.size();i++){
+				System.out.println(LC.get(i));
+			}
 			System.out.println("\nSYMBOL TABLE");
 			bwoutput.write("\nSYMBOL TABLE\n");
 			System.out.println("s_no s_name s_addr s_length");
@@ -268,10 +299,14 @@ class Pass1AssemblerImplementation{
 	void generate_icfile(){
 		try{
 			int i;
+			int k=0;
 			for(int j=0 ;j < br1.size(); j++){
+				
 				if(j != 0){
 					bwoutput.write("\n"); // to
+					bwoutput.write("("+Integer.toString(LC.get(k++)) + ")\t" );
 				}
+				
 				String[] line =  br1.get(j);
 				int len = line.length;
 				for(i=0 ;i < len ;i++){
