@@ -1,0 +1,13 @@
+my javacode is inside ~/sem_6_prac/DLL
+
+ankit@ankit-X556UQK:~/sem_6_prac/DLL$ javac JNITest.java 
+
+ankit@ankit-X556UQK:~/sem_6_prac/DLL$ javah JNITest
+
+ankit@ankit-X556UQK:g++ -fPIC -shared -I/usr/lib/jvm/java-8-openjdk-amd64/include -I/usr/lib/jvm/java-8-openjdk-amd64/include/linux -I/home/ankit/sem_6_prac/DLL/
+-o /home/ankit/sem_6_prac/DLL/mynativelib.so /home/ankit/sem_6_prac/DLL/JNITest.cpp
+
+
+ankit@ankit-X556UQK:java -Djava.library.path=/home/ankit/sem_6_prac/DLL JNITest
+
+
