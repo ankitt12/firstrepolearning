@@ -67,7 +67,7 @@ class Pass1AssemblerImplementation{
 		try{
 			while( (st = br.readLine() ) != null){
 				starray = st.replace(',', ' ').trim().split("\\s+"); 
-				br1.add(starray); // ithink this is used somewhere else
+				br1.add(starray); // usedin generate ic code function
 				i =0;
 				potvalue = temp.find_POT(starray[i]);
 				if(potvalue != null){
